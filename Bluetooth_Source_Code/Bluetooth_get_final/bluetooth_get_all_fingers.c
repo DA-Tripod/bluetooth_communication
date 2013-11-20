@@ -32,14 +32,14 @@ void setup()
 	myservo_3.attach(7);
 	myservo_4.attach(6);
 	myservo_5.attach(5);
-	Serial.begin(9600);				// Begin the serial monitor at 9600bps
+	Serial.begin(9600);                                // Begin the serial monitor at 9600bps
 	bluetooth.begin(115200);        // The Bluetooth Mate defaults to 115200bps
 	delay(320);                     // IMPORTANT DELAY! (Minimum ~276ms)
 	bluetooth.print("$$$");         // Enter command mode
-	delay(100);						// IMPORTANT DELAY! (Minimum ~10ms)
-	bluetooth.println("U,9600,N");	// Temporarily Change the baudrate to 9600, no parity
+	delay(100);                                                // IMPORTANT DELAY! (Minimum ~10ms)
+	bluetooth.println("U,9600,N");        // Temporarily Change the baudrate to 9600, no parity
 	bluetooth.println("---");
-	bluetooth.begin(9600);			// Start bluetooth serial at 9600
+	bluetooth.begin(9600);                        // Start bluetooth serial at 9600
 	delay(1000);
 }
 
@@ -55,11 +55,13 @@ void loop()
 		}
 		else if (x[counter] == '\0'){
 			// do nothing
-		}else{
+		}
+		else{
 			if (numOfFinger <= 5){
 				//make an integer out of an array of characters (0-9)
 				val[numOfFinger] = atoi(x);
-			}else{
+			}
+			else{
 				numOfFinger = 0;
 				val[numOfFinger] = atoi(x);
 			}
@@ -72,13 +74,18 @@ void loop()
 				x[i] = 0;
 			}
 
-		counter = 0;
-		numOfFinger++;
+			counter = 0;
+			numOfFinger++;
 		}
-		myservo_1.write(val[0]);
-		myservo_2.write(val[1]);
-		myservo_3.write(val[2]);
-		myservo_4.write(val[3]);
-		myservo_5.write(val[4]);
+		driveServos(val[0], val[1], val[2], val[3], val[4]);
 	}
+}
+
+void driveServos(int d, int z, int m, int r, int k){
+	//values in the map have to be edited!!!
+	myservo_1.write(map(d, 0, 230, 89, 179);		//daumen
+	myservo_2.write(map(z, 0, 245, 50, 104);		//zeigefinger
+	myservo_3.write(map(m, 0, 280, 50, 102);		//mittelfinger
+	myservo_4.write(map(r, 0, 170, 88, 122);		//ringfinger
+	myservo_5.write(map(k, 0, 230, 103, 120);		//kleiner finger
 }
