@@ -2,8 +2,8 @@
 #include <Servo.h>
 #include <stdlib.h>
 
-int bluetoothTx = 10;  // TX-O pin of bluetooth mate, Arduino D2
-int bluetoothRx = 11;  // RX-I pin of bluetooth mate, Arduino D3
+#define bluetoothTx = 10  // TX-O pin of bluetooth mate, Arduino D2
+#define bluetoothRx = 11  // RX-I pin of bluetooth mate, Arduino D3
 
 SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
 Servo myservo;
