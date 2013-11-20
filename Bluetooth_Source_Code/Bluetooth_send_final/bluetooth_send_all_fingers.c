@@ -3,6 +3,7 @@
 #define bluetoothTx = 2  // TX-O pin of bluetooth mate, Arduino D2
 #define bluetoothRx = 3  // RX-I pin of bluetooth mate, Arduino D3
 #define filterSamples   13              // filterSamples should  be an odd number, no smaller than 3
+
 int sensSmoothArray1[filterSamples];
 int sensSmoothArray2[filterSamples];
 int sensSmoothArray3[filterSamples];
@@ -32,6 +33,7 @@ void setup()
 
 void loop()
 {
+	//read the raw values from the analogInputs
 	raw = analogRead(0);
 	result_1 = digitalSmooth(raw, sensSmoothArray1);
 	bluetooth.print(result_1);
@@ -60,6 +62,7 @@ void loop()
 	bluetooth.print(';');
 }
 
+//smooth the signal digitally
 int digitalSmooth(int rawIn, int *sensSmoothArray){     // "int *sensSmoothArray" passes an array to the function - the asterisk indicates the array name is a pointer
 	int j, k, temp, top, bottom;
 	long total;
