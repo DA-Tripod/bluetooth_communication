@@ -28,6 +28,7 @@ void loop()
 {
   ultrasonic.MeasureInCentimeters();
   raw = ultrasonic.RangeInCentimeters;
+  //smoothing is currently turned off
   //result = digitalSmooth(raw, sensSmoothArray1);
   bluetooth.print(raw);
   delay(25);
