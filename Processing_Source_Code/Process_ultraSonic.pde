@@ -1,6 +1,7 @@
 import processing.serial.*;
 Serial port;
 float xComponent = 0;
+float yComponent = 0;
 
 void setup() {
   size(1000, 1000);
@@ -30,7 +31,7 @@ void draw() {
    
   fill(0,0,0);
  
-  rect(x+size*xComponent, 49*size-10-xComponent*size, size, size);
+  rect(x+size*xComponent, 49*size-10-yComponent*size, size, size);
   //rect();
   //ellipse(xComponent, (1000-xComponent), 30, 30);
   //line (10, 980, 10, 50);
@@ -38,5 +39,6 @@ void draw() {
 }
 
 void serialEvent(Serial port){
+  yComponent = float (port.readStringUntil('.'));
   xComponent = float (port.readStringUntil('\n'));
 }
