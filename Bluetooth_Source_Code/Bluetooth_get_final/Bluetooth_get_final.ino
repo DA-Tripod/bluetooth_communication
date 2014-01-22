@@ -30,10 +30,10 @@ void setup()
 }
 
 void loop()
-{
+{  
   if(bluetooth.available() && counter <= 9999)  // If the bluetooth sent any characters
   {
-    
+    // falls nicht funktioniert -> "Serial.println("Hallo");
     x[counter] = bluetooth.read();
    
    //a bunch of \0s is sent at the beginning
@@ -47,7 +47,7 @@ void loop()
       Serial.println(n);
       
       if(n < 1024 && n >= 0){
-        myservo.write(map(n, 0, 1024, 0, 179));
+        myservo.write(map(n, 0, 1023, 0, 179));
       }
       
       for(int i = 0; i < 4; i++){
