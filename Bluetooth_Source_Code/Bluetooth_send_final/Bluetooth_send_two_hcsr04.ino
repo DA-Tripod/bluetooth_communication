@@ -20,7 +20,7 @@ NewPing sonar2(TRIGGER_PIN_2, ECHO_PIN_2, MAX_DISTANCE); // NewPing setup of pin
 
 void setup() {
    Serial.begin(9600); // Open serial monitor at 115200 baud to see ping results.
-   bluetooth.begin(9600);        // The Bluetooth Mate defaults to 115200bps
+   bluetooth.begin(115200);        // The Bluetooth Mate defaults to 115200bps
    delay(320);                     // IMPORTANT DELAY! (Minimum ~276ms)
    bluetooth.print("$$$");         // Enter command mode
    delay(100);                      // IMPORTANT DELAY! (Minimum ~10ms)
