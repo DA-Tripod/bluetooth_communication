@@ -24,7 +24,7 @@ void setup()
   myservo.attach(9);
   myservo_1.attach(8);
   Serial.begin(9600);  // Begin the serial monitor at 9600bps
-  bluetooth.begin(9600);        // The Bluetooth Mate defaults to 115200bps
+  bluetooth.begin(115200);        // The Bluetooth Mate defaults to 115200bps
   delay(320);                     // IMPORTANT DELAY! (Minimum ~276ms)
   bluetooth.print("$$$");         // Enter command mode
   delay(100);                      // IMPORTANT DELAY! (Minimum ~10ms)
