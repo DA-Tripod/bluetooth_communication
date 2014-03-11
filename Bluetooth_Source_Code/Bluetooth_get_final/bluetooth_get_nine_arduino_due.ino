@@ -5,7 +5,7 @@ char x[10];
 int numOfFinger = 0;
 int val[9];
 
-// plug the pins TX-0 to Arduino D2 and the RX-I to Arduino D3
+// plug the pins TX-0 to Arduino Due TX1 (18) and RX-1 to Arduino Due RX1 (19)
 // before uploading the sketch make sure that the bluetooth mate isn't supplied with voltage.
 // after uploading supply the bluetooth module with voltage.
 // In order to get the RN-42 into CMD mode, you need to send $$$ but without any CR/LF.
