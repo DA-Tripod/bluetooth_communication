@@ -1,15 +1,9 @@
-#include <SoftwareSerial.h>
 #include <stdlib.h>
 
-int bluetoothTx = 2;  // TX-O pin of bluetooth mate, Arduino D2
-int bluetoothRx = 3;  // RX-I pin of bluetooth mate, Arduino D3
-
-#define num (9)
-SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
 int counter = 0;
 char x[10];
 int numOfFinger = 0;
-int val[num];
+int val[9];
 
 // plug the pins TX-0 to Arduino D2 and the RX-I to Arduino D3
 // before uploading the sketch make sure that the bluetooth mate isn't supplied with voltage.
@@ -19,30 +13,26 @@ int val[num];
 void setup()
 {
   Serial.begin(9600);  // Begin the serial monitor at 9600bps
-  bluetooth.begin(115200);        // The Bluetooth Mate defaults to 115200bps
+  Serial1.begin(115200);        // The Bluetooth Mate defaults to 115200bps
   delay(320);                     // IMPORTANT DELAY! (Minimum ~276ms)
-  bluetooth.print("$$$");         // Enter command mode
+  Serial1.print("$$$");         // Enter command mode
   delay(120);                      // IMPORTANT DELAY! (Minimum ~10ms)
-  bluetooth.println("U,9600,N");  // Temporarily Change the baudrate to 9600, no parity
+  Serial1.println("U,9600,N");  // Temporarily Change the baudrate to 9600, no parity
   delay(120);
-  bluetooth.println("---");
-  bluetooth.begin(9600);          // Start bluetooth serial at 9600
+  Serial1.println("---");
+  Serial1.begin(9600);          // Start bluetooth serial at 9600
   delay(1000);
 }
 
 void loop()
 {
-  //Serial.println("NEIN");
-  if(bluetooth.available() && counter <= 9999)  // If the bluetooth sent any characters
+  if(Serial1.available() && counter <= 9999)  // If the bluetooth sent any characters
   {
-    //Serial.println("Hallo");
-    x[counter] = bluetooth.read();
-    //Serial.print(x[counter]);
-    //a bunch of \0s is sent at the beginning
+    x[counter] = Serial1.read();
     // d...Daumen, h...Hauptfinger, m...Mittelfinger, r...Ringfinger, k...kleiner Finger, x...X-Position, y...Y-Position, z...Z-Position, w...Winkellage
     if(x[counter] != 'd' && x[counter] != 'h' && x[counter] != 'm' && x[counter] != 'r' && x[counter] != 'k' && x[counter] != 'x' && x[counter] != 'y' && x[counter] != 'z' && x[counter] != 'w' && x[counter] != '\0'){
       counter++;
-    }else if(x[counter] == '\0'){
+    }else if(x[counter] == '\0'){	//a bunch of \0s is sent at the beginning
       // do nothing
       Serial.println("Nothing");
     }else if(x[counter] == 'd'){
