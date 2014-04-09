@@ -1,0 +1,119 @@
+#include <Servo.h>
+
+#include <stdlib.h>
+
+int counter = 0;
+char n[10];
+int numOfFinger = 0;
+int x=0, y=0, z=0, daumen=0, hauptfinger=0, mittelfinger=0, ringfinger=0, kleinerfinger=0, winkel=0;
+
+Servo servo;
+// plug the pins RX-1 to Arduino Due TX1 (18) and TX-0 to Arduino Due RX1 (19)
+// before uploading the sketch make sure that the bluetooth mate isn't supplied with voltage.
+// after uploading supply the bluetooth module with voltage.
+// In order to get the RN-42 into CMD mode, you need to send $$$ but without any CR/LF.
+
+void setup()
+{
+  Serial.begin(9600);  // Begin the serial monitor at 9600bps
+  Serial1.begin(115200);        // The Bluetooth Mate defaults to 115200bps
+  delay(320);                     // IMPORTANT DELAY! (Minimum ~276ms)
+  Serial1.print("$$$");         // Enter command mode
+  delay(120);                      // IMPORTANT DELAY! (Minimum ~10ms)
+  Serial1.println("U,9600,N");  // Temporarily Change the baudrate to 9600, no parity
+  delay(120);
+  Serial1.println("---");
+  servo.attach(2);
+  Serial1.begin(9600);          // Start bluetooth serial at 9600
+  delay(1000);
+}
+
+void loop()
+{
+  for(int i=0; i<9; i++){
+    if(Serial1.available() && counter <= 9999)  // If the bluetooth sent any characters
+    {
+      n[counter] = Serial1.read();
+      // d...Daumen, h...Hauptfinger, m...Mittelfinger, r...Ringfinger, k...kleiner Finger, x...X-Position, y...Y-Position, z...Z-Position, w...Winkellage
+      if(n[counter] != 'd' && n[counter] != 'h' && n[counter] != 'm' && n[counter] != 'r' && n[counter] != 'k' && n[counter] != 'x' && n[counter] != 'y' && n[counter] != 'z' && n[counter] != 'w' && n[counter] != '\0'){
+        counter++;
+      }else if(n[counter] == '\0'){	//a bunch of \0s is sent at the beginning
+        // do nothing
+        Serial.println("Nothing");
+      }else if(n[counter] == 'd'){
+        daumen = atoi(n);
+        Serial.print(daumen);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'h'){
+        hauptfinger = atoi(n);
+        Serial.print(hauptfinger);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'm'){
+        mittelfinger = atoi(n);
+        Serial.print(mittelfinger);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'r'){
+        ringfinger = atoi(n);
+        Serial.print(ringfinger);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'k'){
+        kleinerfinger = atoi(n);
+        Serial.print(kleinerfinger);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'x'){
+        x = atoi(n);
+        Serial.print(x);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'y'){
+        y = atoi(n);
+        Serial.print(y);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'z'){
+        z = atoi(n);
+        Serial.print(z);
+        Serial.print('.');
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }else if(n[counter] == 'w'){
+        winkel = atoi(n);
+        Serial.print(winkel);
+        Serial.println("");
+        for(int i = 0; i < 10; i++){
+          n[i] = 0;
+        }
+        counter=0;
+      }
+    }
+  }
+  servo.write(map(kleinerfinger,0,1023,0,180));
+}
