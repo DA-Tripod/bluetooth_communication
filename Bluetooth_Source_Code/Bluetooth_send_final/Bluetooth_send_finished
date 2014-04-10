@@ -31,6 +31,9 @@ int m=0;
 int r=0;
 int k=0;
 int w=1;
+int dist_x=35; //This is the distance of the middle of the box to the edge [cm]
+int dist_y=35; //Same here for y
+int dist_z=20; //Same here for z
 
 float acc_data[3];
 
@@ -83,9 +86,9 @@ void loop()
     uS_2 = sonar_2.ping();
     uS_3 = sonar_3.ping();
     
-    x=(uS_1/US_ROUNDTRIP_CM);
-    y=(uS_2/US_ROUNDTRIP_CM);
-    z=(uS_3/US_ROUNDTRIP_CM);
+    x=(uS_1/US_ROUNDTRIP_CM)-dist_x;
+    y=(uS_2/US_ROUNDTRIP_CM)-dist_y;
+    z=(uS_3/US_ROUNDTRIP_CM)-dist_z;
   }
   
   Serial.print(d);
