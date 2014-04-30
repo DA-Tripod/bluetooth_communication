@@ -34,6 +34,10 @@ int w=1;
 int dist_x=35; //This is the distance of the middle of the box to the edge [cm]
 int dist_y=35; //Same here for y
 int dist_z=20; //Same here for z
+int x_old = 0;
+int y_old = 0;
+int z_old = 0;
+bool firstLoop = true;
 
 float acc_data[3];
 
@@ -71,11 +75,11 @@ void loop()
   k=analogRead(0);
     
   // angle too high -> do not measure ultrasonic
-  if(acc_data[0]>0.75){ 
+  if(acc_data[0]>0.5){ 
     w=2;
   }
   // angle too low -> do not measure ultrasonic
-  else if(acc_data[0]<(-0.75)){
+  else if(acc_data[0]<(-0.5)){
     w=0;
   }
   // angle alright -> measure ultrasonic
@@ -86,9 +90,27 @@ void loop()
     uS_2 = sonar_2.ping();
     uS_3 = sonar_3.ping();
     
-    x=(uS_1/US_ROUNDTRIP_CM)-dist_x;
-    y=(uS_2/US_ROUNDTRIP_CM)-dist_y;
-    z=(uS_3/US_ROUNDTRIP_CM)-dist_z;
+    x=25-(uS_1/US_ROUNDTRIP_CM);
+    y=(25-(uS_2/US_ROUNDTRIP_CM))*(-1);
+    z=15-(uS_3/US_ROUNDTRIP_CM);
+    //if distance changed more than 4 cm
+    if(!firstLoop){
+      if((abs(x-x_old)>4)||(abs(y-y_old)>4)||abs((z-z_old)>4)){
+        //remain in the same position as before
+        x = x_old;
+        y = y_old;
+        z = z_old;
+      }else{
+        x_old = x;
+        y_old = y;
+        z_old = z;
+      }
+    }else{
+      firstLoop = false;
+      x_old = x;
+      y_old = y;
+      z_old = z;
+    }
   }
   
   Serial.print(d);
@@ -128,40 +150,41 @@ void loop()
   Serial.println('\t');  //Winkel/Drehung der Hand
   delay(5);
   
-  /*bluetooth.print(d);
-  delay(5);
+  bluetooth.print(d);
+  //delay(5);
   bluetooth.print('d');  //daumen
-  delay(5);
+  //delay(5);
   bluetooth.print(h);
-  delay(5);
+  //delay(5);
   bluetooth.print('h');  //hauptfinger/zeigefinger
-  delay(5);
+  //delay(5);
   bluetooth.print(m);
-  delay(5);
+  //delay(5);
   bluetooth.print('m');  //mittelfinger
-  delay(5);
+  //delay(5);
   bluetooth.print(r);
-  delay(5);
+  //delay(5);
   bluetooth.print('r');  //ringfinger
-  delay(5);
+  //delay(5);
   bluetooth.print(k);
-  delay(5);
+  //delay(5);
   bluetooth.print('k');  //kleiner finger
-  delay(5);
+  //delay(5);
   bluetooth.print(x);
-  delay(5);
+  //delay(5);
   bluetooth.print('x');  //x Koordinate (Ort)
-  delay(5);
+  //delay(5);
   bluetooth.print(y);
-  delay(5);
+  //delay(5);
   bluetooth.print('y');  //y Koordinate (Ort)
-  delay(5);
+  //delay(5);
   bluetooth.print(z);
-  delay(5);
+  //delay(5);
   bluetooth.print('z');  //z Koordinate (Ort)
-  delay(5);
+  //delay(5);
   bluetooth.print(w);
-  delay(5);
+  //delay(5);
   bluetooth.print('w');  //Winkel/Drehung der Hand
-  delay(5);*/  
+  //delay(5); 
+ 
 }
